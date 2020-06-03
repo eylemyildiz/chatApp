@@ -5,12 +5,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv');
 const passport = require('passport');
+const session = require('express-session');
 
 dotenv.config();
 
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const chatRouter = require('./routes/chat');
 
 const app = express();
 
@@ -29,12 +31,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+
+//express-session
+app.use(session({
+  //store: redisStore,
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 14 * 24 * 3600000} //Eğer https kullansaydık bir de virgül ile secure:true ekleyecektik buraya.
+}));
+
 //passport.js
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-
+app.use('/chat', chatRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next)=> {
