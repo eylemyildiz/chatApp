@@ -6,6 +6,9 @@ const socketApi = {
     io
 };
 
+//libs
+const Users = require('./lib/Users.js');
+
 //Socket Authorization
 //Her socket bağlantısı çalıştırılmak kullanılmak istendiğinde arada bu middleware olaccak ve
 //her işlem bu ara katmandan geçtikten sonra sonuçlandırılacak
@@ -30,7 +33,9 @@ io.adapter(redisAdapter({
 io.on('connection',socket =>{
     console.log('a user logged in'+ socket.request.user.surname);
 
-   socket.broadcast.emit('hello');
+   //socket.broadcast.emit('hello');
+
+    Users.upsert(socket.id,socket.request.user)
 });
 
 module.exports = socketApi;
