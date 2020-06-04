@@ -8,6 +8,7 @@ const socketApi = {
 
 //libs
 const Users = require('./lib/Users.js');
+const Rooms = require('./lib/Rooms.js');
 
 //Socket Authorization
 //Her socket bağlantısı çalıştırılmak kullanılmak istendiğinde arada bu middleware olaccak ve
@@ -42,6 +43,12 @@ io.on('connection',socket =>{
        // console.log(users);
         //tüm kullanıcıları bilgilendirme
         io.emit('onlineList',users);
+    });
+
+
+    //Redis'te ui'dan random olarak gelen roomName ile new room olusturma
+    socket.on('newRoom',roomName =>{
+        Rooms.upsert(roomName);
     });
 
     //redis'ten kullanıcı bilgisini silme
