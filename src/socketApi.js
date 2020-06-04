@@ -47,6 +47,12 @@ io.on('connection',socket =>{
 
 
     //Redis'te ui'dan random olarak gelen roomName ile new room olusturma
+    socket.on('newMessage',data =>{
+        console.log(data);
+    });
+
+
+    //Redis'te ui'dan random olarak gelen roomName ile new room olusturma
     socket.on('newRoom',roomName =>{
         Rooms.upsert(roomName);
         //Redis'te yer alan rooms'ları listeleme
