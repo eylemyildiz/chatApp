@@ -51,6 +51,13 @@ io.on('connection',socket =>{
         Rooms.upsert(roomName);
     });
 
+    //Redis'te yer alan rooms'ları listeleme
+    Rooms.list(rooms=>{
+         console.log(rooms);
+        //tüm kullanıcıları bilgilendirme
+        //io.emit('onlineList',rooms);
+    });
+
     //redis'ten kullanıcı bilgisini silme
     socket.on('disconnect',()=>{
         Users.remove(socket.request.user.googleId);
