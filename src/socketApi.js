@@ -49,13 +49,19 @@ io.on('connection',socket =>{
     //Redis'te ui'dan random olarak gelen roomName ile new room olusturma
     socket.on('newRoom',roomName =>{
         Rooms.upsert(roomName);
+        //Redis'te yer alan rooms'ları listeleme
+        Rooms.list(rooms=>{
+            console.log(rooms);
+            //tüm kullanıcıları bilgilendirme
+            io.emit('roomList',rooms);
+        });
     });
 
     //Redis'te yer alan rooms'ları listeleme
     Rooms.list(rooms=>{
          console.log(rooms);
         //tüm kullanıcıları bilgilendirme
-        //io.emit('onlineList',rooms);
+        io.emit('roomList',rooms);
     });
 
     //redis'ten kullanıcı bilgisini silme
