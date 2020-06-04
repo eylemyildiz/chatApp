@@ -4,7 +4,7 @@ app.controller('chatController',['$scope',($scope) =>{
      */
     $scope.onlineList = [];
     $scope.roomList = [];
-    $scope.activeTab = 2;
+    $scope.activeTab = 1;
 
     /**
      * Socket.io event handling.
@@ -28,11 +28,18 @@ app.controller('chatController',['$scope',($scope) =>{
 
     $scope.newRoom = () =>{
 
-        let randomName = Math.random().toString(36).substring(7);
-        console.log(randomName);
-        //sunucuma emit yapıp o isimde bir room oluşturucaz.
-        socket.emit('newRoom',randomName);
+        //random roomname
+        //let randomName = Math.random().toString(36).substring(7);
+        //console.log(randomName);
+        //socket.emit('newRoom',roomName);
 
+        //UI'dan room name alma
+        let roomName = window.prompt("Enter room name");
+        if(roomName != '' && roomName != null)
+        {
+            //sunucuma emit yapıp o isimde bir room oluşturucaz.
+            socket.emit('newRoom',roomName);
+        }
     };
 
     //front-end
