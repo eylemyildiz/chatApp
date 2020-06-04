@@ -1,10 +1,19 @@
 const socketio = require('socket.io');
-//const socketAuthorization = require('../middleware/socketAuthorization');
+const socketAuthorization = require('../middleware/socketAuthorization');
 const io = socketio();
 
 const socketApi = {
     io
 };
+
+//Socket Authorization
+//Her socket bağlantısı çalıştırılmak kullanılmak istendiğinde arada bu middleware olaccak ve
+//her işlem bu ara katmandan geçtikten sonra sonuçlandırılacak
+/*io.use(()=>{
+    console.log('selam');
+});*/
+io.use(socketAuthorization);
+
 
 /**
  *
@@ -16,8 +25,10 @@ io.adapter(redisAdapter({
     port: process.env.REDIS_PORT
 }));
 
+
+
 io.on('connection',socket =>{
-    console.log('a user logged in');
+    console.log('a user logged in'+ socket.request.user.surname);
 
    socket.broadcast.emit('hello');
 });
