@@ -10,13 +10,13 @@ block content
         .left
           .top
             ul.tab
-              li.conversations
-                a.active(href='#') Chats
-              li.onlineUsers
-                a(href='#') Online Users
+              li.conversations(ng-click="changeTab(1)")
+                a(ng-class="{active: activeTab === 1}") Chats
+              li.onlineUsers(ng-click="changeTab(2)")
+                a(ng-class="{active: activeTab === 2}") Online Users
 
           .tabArea
-            .tab-left()
+            .tab-left(ng-show="activeTab === 1")
               ul.people
                 li.person
                   span.name Thomas Bangalter
@@ -52,7 +52,7 @@ block content
                 li.person
                   span.name Drake
                   span.preview howdoyoudoaspace
-            .tab-right()
+            .tab-right(ng-show="activeTab === 2")
               ul.people
                 li.person
                   span.name Eylem YILDIZ
