@@ -35,10 +35,20 @@ io.on('connection',socket =>{
 
    //socket.broadcast.emit('hello');
 
+    //redis'e bilgileriyle kulanıcı ekleme
     Users.upsert(socket.id,socket.request.user);
 
+    Users.list(users=>{
+        console.log(users);
+    });
+
+    //redis'ten kullanıcı bilgisini silme
     socket.on('disconnect',()=>{
         Users.remove(socket.request.user.googleId);
+
+        Users.list(users=>{
+            console.log(users);
+        });
     });
 });
 
