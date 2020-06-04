@@ -39,7 +39,9 @@ io.on('connection',socket =>{
     Users.upsert(socket.id,socket.request.user);
 
     Users.list(users=>{
-        console.log(users);
+       // console.log(users);
+        //tüm kullanıcıları bilgilendirme
+        io.emit('onlineList',users);
     });
 
     //redis'ten kullanıcı bilgisini silme
@@ -47,7 +49,9 @@ io.on('connection',socket =>{
         Users.remove(socket.request.user.googleId);
 
         Users.list(users=>{
-            console.log(users);
+           // console.log(users);
+            //bir kullanıcı çıktığında online listesini güncelleiyoruz.
+            io.emit('onlineList',users);
         });
     });
 });
