@@ -35,7 +35,11 @@ io.on('connection',socket =>{
 
    //socket.broadcast.emit('hello');
 
-    Users.upsert(socket.id,socket.request.user)
+    Users.upsert(socket.id,socket.request.user);
+
+    socket.on('disconnect',()=>{
+        Users.remove(socket.request.user.googleId);
+    });
 });
 
 module.exports = socketApi;
