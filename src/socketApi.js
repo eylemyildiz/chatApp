@@ -78,7 +78,7 @@ io.on('connection',socket =>{
 
     //redis'ten kullanıcı bilgisini silme
     socket.on('disconnect',()=>{
-        Users.remove(socket.request.user.googleId);
+        Users.remove(socket.request.user._id);
 
         Users.list(users=>{
            // console.log(users);
