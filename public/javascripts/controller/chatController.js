@@ -62,15 +62,20 @@ app.controller('chatController',['$scope','userFactory','chatFactory',($scope,us
         $scope.roomId = room.id;
 
         $scope.chatClicked = true;
-        $scope.loadingMessages = true;
 
-        chatFactory.getMessages(room.id).then(data =>{
-           // console.log(data);
-            //Array'in indexi roomId'i, karşılığıda mesajları içerecek.
-            $scope.messages[room.id] = data;
-            //console.log($scope.messages);
-            $scope.loadingMessages = false;
-        })
+        if(!$scope.messages.hasOwnProperty(room.id)){
+            $scope.loadingMessages = true;
+
+           // console.log('servise bağlanıyor.');
+
+            chatFactory.getMessages(room.id).then(data =>{
+                // console.log(data);
+                //Array'in indexi roomId'i, karşılığıda mesajları içerecek.
+                $scope.messages[room.id] = data;
+                //console.log($scope.messages);
+                $scope.loadingMessages = false;
+            })
+        }
     };
 
     $scope.newRoom = () =>{
